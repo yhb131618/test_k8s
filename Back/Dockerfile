@@ -1,16 +1,10 @@
-# Dockerfile for Spring Boot API
+# 기본 이미지로 Java 환경 설정
+FROM openjdk:17-jdk-alpine
 
-# Base image
-FROM openjdk:latest
+# JAR 파일 복사
+ARG JAR_FILE=build/libs/*.jar
+COPY ${JAR_FILE} app.jar
 
-# Set working directory
-WORKDIR /app
+# 애플리케이션 실행
+ENTRYPOINT ["java","-jar","/app.jar"]
 
-# Copy jar file
-COPY target/myapp.jar myapp.jar
-
-# Expose port
-EXPOSE 8080
-
-# Command to run the application
-CMD ["java", "-jar", "myapp.jar"]

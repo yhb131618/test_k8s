@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                checkout scm
+                sh 'npm install'
+                sh 'npm run build'
+                sh 'mvn clean install'
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                docker build -t harbor.example.com/react-app ./Front
+                docker build -t harbor.example.com/spring-boot-api ./Back
+            }
+        }
+        stage('Push to Harbor') {
+            steps {
+                docker push harbor.example.com/react-app
+                docker push harbor.example.com/spring-boot-api
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                helm install my-app ./helm-chart --set image.react=harbor.example.com/react-app --set image.api=harbor.example.com/spring-boot-api
+            }
+        }
+    }
+}

@@ -2,9 +2,9 @@
 FROM openjdk:17-jdk-alpine
 
 # JAR 파일 복사
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} app.jar
+
+COPY build/libs/example.jar
 
 # 애플리케이션 실행
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-jar","/example.jar"]
 

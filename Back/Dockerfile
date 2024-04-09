@@ -2,7 +2,7 @@
 FROM openjdk:17-jdk-alpine
 
 # JAR 파일 복사
-ARG JAR_FILE=build/libs/example.jar
+ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar
 
 # 애플리케이션 실행
